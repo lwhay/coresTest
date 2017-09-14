@@ -62,7 +62,7 @@ public class Q20MapJob extends Configured implements Tool {
         Schema inputSchema = new Schema.Parser().parse(new File(args[1]));
         String result = args[2];
         int i = 6;
-        i += Integer.parseInt(args[3]);
+        //        i += Integer.parseInt(args[3]);
 
         Job job = new Job(conf, "Q20MapJob");
         job.setJarByClass(Q20MapJob.class);

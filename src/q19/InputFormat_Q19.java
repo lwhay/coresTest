@@ -38,31 +38,31 @@ public class InputFormat_Q19 extends FileInputFormat<AvroKey<Record>, NullWritab
     @Override
     public RecordReader<AvroKey<Record>, NullWritable> createRecordReader(InputSplit split, TaskAttemptContext context)
             throws IOException, InterruptedException {
-        FilterOperator[] filters = new FilterOperator[6];
+        FilterOperator[] filters = new FilterOperator[1];
         Configuration conf = context.getConfiguration();
         String[] args = conf.getStrings("args");
-        String brandNo = args[3];
-        int p_container = Integer.parseInt(args[4]);
-        String[] com_p = new String[p_container];
-        int i = 5;
-        for (int m = 0; m < p_container; m++) {
-            com_p[m] = args[i + m];
-        }
-        i += p_container;
-        int p_size = Integer.parseInt(args[i++]);
-        float f1 = Float.parseFloat(args[i++]);
-        float f2 = Float.parseFloat(args[i++]);
-        int l_shipmode = Integer.parseInt(args[i++]);
-        String[] com_l = new String[l_shipmode];
-        for (int m = 0; m < l_shipmode; m++) {
-            com_l[m] = args[i + m];
-        }
-        filters[0] = new Pfilter1(brandNo); //p_brand
-        filters[1] = new Pfilter2(com_p); //p_container
-        filters[2] = new Pfilter3(p_size); //p_size
-        filters[3] = new Lfilter1(f1, f2); //l_quantity
-        filters[4] = new Lfilter2(com_l); //l_shipmode
-        filters[5] = new Lfilter3(); //l_shipinstruct
+        Integer brandNo = Integer.parseInt(args[3]);
+        //        int p_container = Integer.parseInt(args[4]);
+        //        String[] com_p = new String[p_container];
+        //        int i = 5;
+        //        for (int m = 0; m < p_container; m++) {
+        //            com_p[m] = args[i + m];
+        //        }
+        //        i += p_container;
+        //        int p_size = Integer.parseInt(args[i++]);
+        //        float f1 = Float.parseFloat(args[i++]);
+        //        float f2 = Float.parseFloat(args[i++]);
+        //        int l_shipmode = Integer.parseInt(args[i++]);
+        //        String[] com_l = new String[l_shipmode];
+        //        for (int m = 0; m < l_shipmode; m++) {
+        //            com_l[m] = args[i + m];
+        //        }
+        filters[0] = new Pfilter(brandNo); //p_brand
+        //        filters[1] = new Pfilter2(com_p); //p_container
+        //        filters[2] = new Pfilter3(p_size); //p_size
+        //        filters[3] = new Lfilter1(f1, f2); //l_quantity
+        //        filters[4] = new Lfilter2(com_l); //l_shipmode
+        //        filters[5] = new Lfilter3(); //l_shipinstruct
         return new NeciFilterRecordReader(filters);
     }
 }

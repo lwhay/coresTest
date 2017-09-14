@@ -140,6 +140,7 @@ public class DataTran {
         Schema s = new Schema.Parser().parse(new File(schema1 + "nest.avsc"));
         Schema s2 = new Schema.Parser().parse(new File(schema2));
         List<Field> fs1 = s1.getFields();
+        int mm = s2.getFields().size() - 1;
 
         BufferedReader reader1 = new BufferedReader(new FileReader(new File(path1)));
         SortedAvroReader reader2 = new SortedAvroReader(path2, s2, fIn2);
@@ -149,6 +150,7 @@ public class DataTran {
         String line;
         Record r2 = reader2.next();
         ComparableKey k2 = new ComparableKey(r2, fIn2);
+        //        int count = 0;
         while ((line = reader1.readLine()) != null) {
             String[] tmp = line.split("\\|");
             Record data = new Record(s);
@@ -198,9 +200,13 @@ public class DataTran {
                 }
             }
             data.put(fs1.size(), arr);
-            writer.append(data);
+            writer.flush(data);
+            //            count++;
+            //            if (count >= 20)
+            //                break;
         }
         reader1.close();
+        reader2.close();
         int index = writer.flush();
         //        File[] files = new File[index];
         //        for (int i = 0; i < index; i++)
@@ -236,27 +242,27 @@ public class DataTran {
         //        end = System.currentTimeMillis();
         //        System.out.println("+++++++partsupp&&lineitem time+++++++" + (end - start));
 
-        //        int[] fields4 = new int[] { 0 };
-        //        int[] fields5 = new int[] { 0 };
-        //        start = System.currentTimeMillis();
-        //        finalTran(path + "part.tbl", result + "2/", schema + "3/", schema + "2/nest.avsc", fields4, fields5,
-        //                result + "3/", max, mul);
-        //        end = System.currentTimeMillis();
-        //        System.out.println("+++++++part&&partsupp&&lineitem time+++++++" + (end - start));
+        int[] fields4 = new int[] { 0 };
+        int[] fields5 = new int[] { 0 };
+        long start = System.currentTimeMillis();
+        finalTran(path + "part.tbl", result + "2/", schema + "3/", schema + "2/nest.avsc", fields4, fields5,
+                result + "3/", max, mul);
+        long end = System.currentTimeMillis();
+        System.out.println("+++++++part&&partsupp&&lineitem time+++++++" + (end - start));
 
-        String resultPath = result + "3/";
-        int index = 200;
-        Schema s = new Schema.Parser().parse(new File(schema + "3/" + "nest.avsc"));
-        BatchAvroColumnWriter<Record> writer = new BatchAvroColumnWriter<Record>(s, resultPath, max, mul);
-        File[] files = new File[index];
-        for (int i = 0; i < index; i++)
-            files[i] = new File(resultPath + "file" + String.valueOf(i) + ".neci");
-        if (index == 1) {
-            new File(resultPath + "file0.head").renameTo(new File(resultPath + "result.head"));
-            new File(resultPath + "file0.trv").renameTo(new File(resultPath + "result.neci"));
-        } else {
-            writer.mergeFiles(files);
-        }
-        System.out.println("merge completed!");
+        //        String resultPath = result + "3/";
+        //        int index = 200;
+        //        Schema s = new Schema.Parser().parse(new File(schema + "3/" + "nest.avsc"));
+        //        BatchAvroColumnWriter<Record> writer = new BatchAvroColumnWriter<Record>(s, resultPath, max, mul);
+        //        File[] files = new File[index];
+        //        for (int i = 0; i < index; i++)
+        //            files[i] = new File(resultPath + "file" + String.valueOf(i) + ".neci");
+        //        if (index == 1) {
+        //            new File(resultPath + "file0.head").renameTo(new File(resultPath + "result.head"));
+        //            new File(resultPath + "file0.neci").renameTo(new File(resultPath + "result.neci"));
+        //        } else {
+        //            writer.mergeFiles(files);
+        //        }
+        //        System.out.println("merge completed!");
     }
 }

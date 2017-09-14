@@ -41,17 +41,17 @@ public class InputFormat_Q20 extends FileInputFormat<AvroKey<Record>, NullWritab
         FilterOperator[] filters = new FilterOperator[2];
         Configuration conf = context.getConfiguration();
         String[] args = conf.getStrings("args");
-        int p_name = Integer.parseInt(args[3]);
-        int i = 4;
-        String[] com = new String[p_name];
-        for (int m = 0; m < p_name; m++) {
-            com[m] = args[i + m];
-        }
-        i += p_name;
-        filters[0] = new Pfilter(com); //p_name
-        filters[1] = new Lfilter(args[i], args[i + 1]); //l_shipdate
-        //        filters[0] = new PfilterStart(args[3]); //p_name
-        //        filters[1] = new Lfilter(args[4], args[5]); //l_shipdate
+        //        int p_name = Integer.parseInt(args[3]);
+        //        int i = 4;
+        //        String[] com = new String[p_name];
+        //        for (int m = 0; m < p_name; m++) {
+        //            com[m] = args[i + m];
+        //        }
+        //        i += p_name;
+        //        filters[0] = new Pfilter(com); //p_name
+        //        filters[1] = new Lfilter(args[i], args[i + 1]); //l_shipdate
+        filters[0] = new PfilterStart(args[3]); //p_name
+        filters[1] = new Lfilter(args[4], args[5]); //l_shipdate
         return new NeciFilterRecordReader(filters);
     }
 }
