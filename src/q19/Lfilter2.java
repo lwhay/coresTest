@@ -14,10 +14,10 @@ public class Lfilter2 implements FilterOperator<String> {
     }
 
     public boolean isMatch(String s) {
-        for (int i = 0; i < com.length; i++) {
-            if (s.startsWith(com[i]))
-                return true;
-        }
-        return false;
+        //        for (int i = 0; i < com.length; i++) {
+        //            if (s.startsWith(com[i]))
+        return true;
+        //        }
+        //        return false;
     }
 }

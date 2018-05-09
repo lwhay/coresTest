@@ -14,9 +14,9 @@ public class Pfilter3 implements FilterOperator<Integer> {
     }
 
     public boolean isMatch(Integer s) {
-        if (s >= 1 && s <= com) {
-            return true;
-        } else
-            return false;
+        //        if (s >= 1 && s <= com)
+        return true;
+        //        else
+        //            return false;
     }
 }

@@ -14,9 +14,9 @@ public class Pfilter1 implements FilterOperator<String> {
     }
 
     public boolean isMatch(String s) {
-        if (s.compareTo(com) <= 0) {
-            return true;
-        } else
-            return false;
+        //        if (s.compareTo(com) <= 0)
+        return true;
+        //        else
+        //            return false;
     }
 }

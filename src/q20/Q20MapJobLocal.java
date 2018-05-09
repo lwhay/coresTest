@@ -44,17 +44,17 @@ public class Q20MapJobLocal extends Configured implements Tool {
             schema = AvroJob.getInputKeySchema(context.getConfiguration());
             String[] args = conf.getStrings("args");
             filters = new FilterOperator[2];
-            int p_name = Integer.parseInt(args[3]);
-            int i = 4;
-            String[] com = new String[p_name];
-            for (int m = 0; m < p_name; m++) {
-                com[m] = args[i + m];
-            }
-            i += p_name;
-            filters[0] = new Pfilter(com); //p_name
-            filters[1] = new Lfilter(args[i], args[i + 1]); //l_shipdate
-            //            filters[0] = new PfilterStart(args[3]); //p_name
-            //            filters[1] = new Lfilter(args[4], args[5]); //l_shipdate
+            //            int p_name = Integer.parseInt(args[3]);
+            //            int i = 4;
+            //            String[] com = new String[p_name];
+            //            for (int m = 0; m < p_name; m++) {
+            //                com[m] = args[i + m];
+            //            }
+            //            i += p_name;
+            //            filters[0] = new Pfilter(com); //p_name
+            //            filters[1] = new Lfilter(args[i], args[i + 1]); //l_shipdate
+            filters[0] = new PfilterStart(args[3]); //p_name
+            filters[1] = new Lfilter(args[4], args[5]); //l_shipdate
 
             File file = new File(args[args.length - 1]);
             File[] files = file.listFiles();
@@ -74,7 +74,7 @@ public class Q20MapJobLocal extends Configured implements Tool {
                 LOG.info("*************************neciFile" + path.getName());
                 FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(path, filters);
                 reader.createSchema(schema);
-                reader.filter();
+                reader.filterNoCasc();
                 reader.createFilterRead();
                 while (reader.hasNext()) {
                     reader.next();
@@ -117,7 +117,7 @@ public class Q20MapJobLocal extends Configured implements Tool {
         Schema inputSchema = new Schema.Parser().parse(new File(args[1]));
         String result = args[2];
         int i = 6;
-        i += Integer.parseInt(args[3]);
+        //        i += Integer.parseInt(args[3]);
 
         Job job = new Job(conf, "Q20MapJobLocal");
         job.setJarByClass(Q20MapJobLocal.class);

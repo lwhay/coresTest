@@ -1,0 +1,9 @@
+{"type": "record", "name": "Orders",
+	"fields": [
+		{"name": "o_orderdate", "type": "string"},
+		{"name": "LineitemList", "type":{"type": "array",
+         	"items":{"type": "record", "name": "Lineitem",
+         		"fields": [
+         			{"name": "l_suppkey", "type": "int"}
+         ]}}}
+]}

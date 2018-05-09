@@ -1,0 +1,6 @@
+{"type": "record", "name": "supplier",
+	 "fields": [
+	 	{"name": "nk", "type": "int"},
+	 	{"name": "year", "type": "int"},
+	 	{"name": "amount", "type": "double"}
+]}

@@ -65,7 +65,7 @@ public class Q14MapJobLocal extends Configured implements Tool {
                 LOG.info("*************************neciFile" + path.getName());
                 FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(path, filters);
                 reader.createSchema(schema);
-                reader.filter();
+                reader.filterNoCasc();
                 reader.createFilterRead();
                 while (reader.hasNext()) {
                     Record r = reader.next();

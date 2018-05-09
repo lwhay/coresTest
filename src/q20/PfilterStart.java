@@ -14,9 +14,9 @@ public class PfilterStart implements FilterOperator<String> {
     }
 
     public boolean isMatch(String s) {
-        if (s.startsWith(start)) {
-            return true;
-        } else
-            return false;
+        //        if (s.startsWith(start))
+        return true;
+        //        else
+        //            return false;
     }
 }

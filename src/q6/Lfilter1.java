@@ -15,9 +15,9 @@ public class Lfilter1 implements FilterOperator<String> {
     }
 
     public boolean isMatch(String s) {
-        if (s.compareTo(t1) >= 0 && s.compareTo(t2) < 0) {
-            return true;
-        } else
-            return false;
+        //        if (s.compareTo(t1) >= 0 && s.compareTo(t2) < 0)
+        return true;
+        //        else
+        //            return false;
     }
 }
