@@ -37,8 +37,8 @@ public class SortKey implements Comparable<SortKey> {
         List<Field> fs = record.getSchema().getFields();
         for (int i = 0; i < keyNO; i++) {
             if (isInteger(fs.get(i))) {
-                long k1 = Long.parseLong(record.get(i).toString());
-                long k2 = Long.parseLong(o.record.get(i).toString());
+                long k1 = (long) record.get(i);
+                long k2 = (long) o.record.get(i);
                 if (k1 > k2) {
                     return 1;
                 } else if (k1 < k2) {
@@ -60,6 +60,27 @@ public class SortKey implements Comparable<SortKey> {
     @Override
     public boolean equals(Object o) {
         return (compareTo((SortKey) o) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        int res;
+        List<Field> fs = record.getSchema().getFields();
+        switch (fs.get(0).schema().getType()) {
+            case LONG:
+                res = new Long((long) record.get(0)).hashCode();
+                break;
+            case INT:
+                res = (int) record.get(0);
+                break;
+            case STRING:
+            case BYTES:
+                res = record.get(0).toString().hashCode();
+                break;
+            default:
+                throw new ClassCastException("This type is not supported for Key type: " + fs.get(0).schema());
+        }
+        return res;
     }
 
     boolean isInteger(Field f) {

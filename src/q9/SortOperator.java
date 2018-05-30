@@ -163,19 +163,19 @@ public class SortOperator {
         Field f = r1.getSchema().getFields().get(keyNO);
         switch (f.schema().getType()) {
             case INT:
-                int s1 = Integer.parseInt(r1.get(keyNO).toString()) + Integer.parseInt(r2.get(keyNO).toString());
+                int s1 = (int) r1.get(keyNO) + (int) r2.get(keyNO);
                 r1.put(keyNO, s1);
                 break;
             case LONG:
-                long s2 = Long.parseLong(r1.get(keyNO).toString()) + Long.parseLong(r2.get(keyNO).toString());
+                long s2 = (long) r1.get(keyNO) + (long) r2.get(keyNO);
                 r1.put(keyNO, s2);
                 break;
             case FLOAT:
-                float s3 = Float.parseFloat(r1.get(keyNO).toString()) + Float.parseFloat(r2.get(keyNO).toString());
+                float s3 = (float) r1.get(keyNO) + (float) r2.get(keyNO);
                 r1.put(keyNO, s3);
                 break;
             case DOUBLE:
-                double s4 = Double.parseDouble(r1.get(keyNO).toString()) + Double.parseDouble(r2.get(keyNO).toString());
+                double s4 = (double) r1.get(keyNO) + (double) r2.get(keyNO);
                 r1.put(keyNO, s4);
                 break;
             default:

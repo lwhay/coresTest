@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.avro.Schema;
@@ -33,16 +34,16 @@ public class Q9 {
         ArrayList<SortKey> batch = new ArrayList<SortKey>();
         while (reader.hasNext()) {
             Record r = reader.next();
-            int ps_suppkey = Integer.parseInt(r.get("ps_suppkey").toString());
-            float ps_supplycost = Float.parseFloat(r.get("ps_supplycost").toString());
+            int ps_suppkey = (int) r.get("ps_suppkey");
+            float ps_supplycost = (float) r.get("ps_supplycost");
             List<Record> lineitemList = (List<Record>) r.get(2);
             Record sa = new Record(saSchema);
             double amount = 0.00;
             sa.put(0, ps_suppkey);
             for (Record l : lineitemList) {
-                float l_quantity = Float.parseFloat(l.get("l_quantity").toString());
-                float l_extendedprice = Float.parseFloat(l.get("l_extendedprice").toString());
-                float l_discount = Float.parseFloat(l.get("l_discount").toString());
+                float l_quantity = (float) l.get("l_quantity");
+                float l_extendedprice = (float) l.get("l_extendedprice");
+                float l_discount = (float) l.get("l_discount");
                 double a = l_extendedprice * (1 - l_discount) - ps_supplycost * l_quantity;
                 amount += a;
             }
@@ -59,7 +60,10 @@ public class Q9 {
         }
         reader.close();
 
+        long start = System.currentTimeMillis();
         SO.sumMerge(saSchema);
+        long end = System.currentTimeMillis();
+        System.out.println("sk_amount merge time:" + (end - start));
         return new File[] { new File(saPath + "/file") };
     }
 
@@ -70,26 +74,28 @@ public class Q9 {
         reader.createSchema(colSchema);
         reader.createRead(max);
         SortOperator SO = new SortOperator(syPath, true, 1);
-        ArrayList<SortKey> batch = new ArrayList<SortKey>();
+        HashSet<SortKey> batch = new HashSet<SortKey>();
         while (reader.hasNext()) {
             Record r = reader.next();
             String o_orderdate = r.get("o_orderdate").toString();
             int year = Integer.parseInt(o_orderdate.substring(0, 4));
             List<Record> lineitemList = (List<Record>) r.get(1);
             for (Record l : lineitemList) {
-                int l_suppkey = Integer.parseInt(l.get("l_suppkey").toString());
+                int l_suppkey = (int) l.get("l_suppkey");
                 Record sy = new Record(sySchema);
                 sy.put(0, l_suppkey);
                 sy.put(1, year);
-                batch.add(new SortKey(sy, 1));
+                SortKey sk = new SortKey(sy, 1);
+                if (!batch.contains(sk))
+                    batch.add(sk);
             }
             if (batch.size() >= max) {
-                SO.flush(batch);
+                SO.flush(new ArrayList<SortKey>(batch));
                 batch.clear();
             }
         }
         if (!batch.isEmpty()) {
-            SO.flush(batch);
+            SO.flush(new ArrayList<SortKey>(batch));
             batch.clear();
         }
         reader.close();
@@ -128,7 +134,10 @@ public class Q9 {
         SortOperator SO = new SortOperator(nyaPath, true, 2);
         JoinOperator JO = new JoinOperator(syaF, snF, syaSchema, snSchema, 1, true, nyaSchema, nyaPath, SO);
         JO.halfJoin();
+        long start = System.currentTimeMillis();
         ArrayList<SortKey> nya = SO.sumMergeToMem(nyaSchema);
+        long end = System.currentTimeMillis();
+        System.out.println("nk_year_amount merge time:" + (end - start));
         return nya;
     }
 
@@ -146,7 +155,7 @@ public class Q9 {
         for (SortKey sk : nya) {
             Record skr = sk.getRecord();
             Record r = new Record(nayaSchema);
-            r.put(0, map.get(Integer.parseInt(skr.get(0).toString())));
+            r.put(0, map.get((int) skr.get(0)));
             r.put(1, skr.get(1));
             r.put(2, skr.get(2));
             res.add(new SortKey(r, 2));
@@ -170,31 +179,44 @@ public class Q9 {
         String saPath = path + "/saPath";
         Schema ppslSchema = new Schema.Parser().parse(new File(schemaPath + "/q9_ppsl.avsc"));
         Schema saSchema = new Schema.Parser().parse(new File(schemaPath + "/sk_amount.avsc"));
+        long start = System.currentTimeMillis();
         File[] sa = sk_amount(ppslFile, ppslSchema, max, color, saPath, saSchema);
+        long end = System.currentTimeMillis();
+        System.out.println("#######sk_amount time: " + (end - start));
 
         File colFile = new File(path + "/tpch/col/result.neci");
         String syPath = path + "/syPath";
         Schema colSchema = new Schema.Parser().parse(new File(schemaPath + "/q9_col.avsc"));
         Schema sySchema = new Schema.Parser().parse(new File(schemaPath + "/sk_year.avsc"));
         File[] sy = sk_year(colFile, colSchema, max, syPath, sySchema);
+        start = System.currentTimeMillis();
+        System.out.println("#######sk_year time: " + (start - end));
 
         String syaPath = path + "/syaPath";
         Schema syaSchema = new Schema.Parser().parse(new File(schemaPath + "/sk_year_amount.avsc"));
         sk_year_amount(sa, saSchema, sy, sySchema, syaPath, syaSchema);
+        end = System.currentTimeMillis();
+        System.out.println("#######sk_year_amount time: " + (end - start));
 
         File sFile = new File(path + "/tpch/s/result/result.neci");
         String snPath = path + "/snPath";
         Schema sSchema = new Schema.Parser().parse(new File(schemaPath + "/q9_s.avsc"));
         Schema snSchema = new Schema.Parser().parse(new File(schemaPath + "/sk_nk.avsc"));
         sk_nk(sFile, sSchema, max, snPath);
+        start = System.currentTimeMillis();
+        System.out.println("#######sk_nk time: " + (start - end));
 
         String nyaPath = path + "/nyaPath";
         Schema nyaSchema = new Schema.Parser().parse(new File(schemaPath + "/nk_year_amount.avsc"));
         ArrayList<SortKey> nya = nk_year_amount(new File(syaPath + "/file"), syaSchema, new File(snPath + "/file"),
                 snSchema, nyaPath, nyaSchema);
+        end = System.currentTimeMillis();
+        System.out.println("#######nk_year_amount time: " + (end - start));
 
         String nPath = path + "/tpch/nation.tbl";
         Schema nayaSchema = new Schema.Parser().parse(new File(schemaPath + "/nation_year_amount.avsc"));
         nation_year_amount(nya, nayaSchema, nPath);
+        start = System.currentTimeMillis();
+        System.out.println("#######nation_year_amount time: " + (start - end));
     }
 }

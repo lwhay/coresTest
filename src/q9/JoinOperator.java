@@ -83,13 +83,16 @@ public class JoinOperator {
         if (dsc) {
             while (reader1.hasNext()) {
                 SortKey key1 = reader1.next();
-                while (key2.compareTo(key1) < 0) {
+                while (reader2.hasNext() && key2.compareTo(key1) < 0) {
                     key2 = reader2.next();
                 }
                 Record r;
-                if (key1.compareTo(key2) == 0) {
+                if (key2 != null && key1.compareTo(key2) == 0) {
                     r = getRes(key1, key2);
-                    key2 = reader2.next();
+                    if (reader2.hasNext())
+                        key2 = reader2.next();
+                    else
+                        key2 = null;
                 } else {
                     r = getRes(key1);
                 }
