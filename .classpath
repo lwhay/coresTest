@@ -30,13 +30,13 @@
 	<classpathentry kind="lib" path="lib/trevni-core-1.9.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/jopt-simple-4.6.jar"/>
 	<classpathentry kind="lib" path="lib/hadoop-hdfs-2.7.2-tests.jar"/>
-	<classpathentry kind="lib" path="/home/ly/parquet-src/parquet-mr/parquet-avro/target/parquet-avro-1.6.0rc3-SNAPSHOT.jar" sourcepath="/parquet-avro"/>
-	<classpathentry kind="lib" path="/home/ly/parquet-src/parquet-mr/parquet-column/target/parquet-column-1.6.0rc3-SNAPSHOT.jar" sourcepath="/parquet-column"/>
-	<classpathentry kind="lib" path="/home/ly/parquet-src/parquet-mr/parquet-common/target/parquet-common-1.6.0rc3-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/home/ly/parquet-src/parquet-mr/parquet-hadoop/target/parquet-hadoop-1.6.0rc3-SNAPSHOT.jar" sourcepath="/parquet-hadoop"/>
-	<classpathentry kind="lib" path="/home/ly/parquet-src/parquet-mr/parquet-hadoop-bundle/target/parquet-hadoop-bundle-1.6.0rc3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/avro-1.9.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/avro-mapred-1.9.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/avro-tools-1.9.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/parquet-avro-1.6.0rc3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/parquet-column-1.6.0rc3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/parquet-common-1.6.0rc3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/parquet-hadoop-1.6.0rc3-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/parquet-hadoop-bundle-1.6.0rc3-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
