@@ -1,5 +1,0 @@
-{"type": "record", "name": "sk_year",
-	 "fields": [
-	 	{"name": "sk", "type": "int"},
-	 	{"name": "year", "type": "int"}
-]}

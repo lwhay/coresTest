@@ -36,9 +36,52 @@ public class SortKey implements Comparable<SortKey> {
         assert (keyNO == o.keyNO);
         List<Field> fs = record.getSchema().getFields();
         for (int i = 0; i < keyNO; i++) {
+<<<<<<< HEAD
             if (isInteger(fs.get(i))) {
                 long k1 = (long) record.get(i);
                 long k2 = (long) o.record.get(i);
+=======
+            switch (fs.get(i).schema().getType()) {
+                case INT: {
+                    int k1 = (int) record.get(i);
+                    int k2 = (int) o.record.get(i);
+                    if (k1 > k2) {
+                        return 1;
+                    } else if (k1 < k2) {
+                        return -1;
+                    }
+                    break;
+                }
+                case LONG: {
+                    long k1 = (long) record.get(i);
+                    long k2 = (long) o.record.get(i);
+                    if (k1 > k2) {
+                        return 1;
+                    } else if (k1 < k2) {
+                        return -1;
+                    }
+                    break;
+                }
+                case STRING:
+                case BYTES: {
+                    String k1 = record.get(i).toString();
+                    String k2 = o.record.get(i).toString();
+                    if (k1.compareTo(k2) > 0) {
+                        return 1;
+                    } else if (k1.compareTo(k2) < 0) {
+                        return -1;
+                    }
+                    break;
+                }
+                default:
+                    throw new ClassCastException(
+                            "This type is not supported for Key type: " + fs.get(i).schema().getType());
+
+            }
+            /*if (isInteger(fs.get(i))) {
+                long k1 = Long.parseLong(record.get(i).toString());
+                long k2 = Long.parseLong(o.record.get(i).toString());
+>>>>>>> ba979ed2ed4581700bf6db9f095df05d427283a3
                 if (k1 > k2) {
                     return 1;
                 } else if (k1 < k2) {
@@ -52,7 +95,7 @@ public class SortKey implements Comparable<SortKey> {
                 } else if (k1.compareTo(k2) < 0) {
                     return -1;
                 }
-            }
+            }*/
         }
         return 0;
     }

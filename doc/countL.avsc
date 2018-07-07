@@ -1,0 +1,6 @@
+{"type": "record", "name": "Lineitem",
+ "fields": [
+     {"name": "l_orderkey", "type": "long"},
+     {"name": "l_linenumber", "type": "long"}
+ ]
+}

@@ -51,6 +51,7 @@ public class Q14MapJobLocal extends Configured implements Tool {
             for (File f : files) {
                 if (f.getAbsolutePath().endsWith(".neci")) {
                     paths.add(f);
+                    LOG.info("^^^^^^^^^^^^^^^^^^^^^^^" + f.getAbsolutePath());
                 }
             }
         }
@@ -65,7 +66,8 @@ public class Q14MapJobLocal extends Configured implements Tool {
                 LOG.info("*************************neciFile" + path.getName());
                 FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(path, filters);
                 reader.createSchema(schema);
-                reader.filterNoCasc();
+                reader.filter();
+                //reader.filterNoCasc();
                 reader.createFilterRead();
                 while (reader.hasNext()) {
                     Record r = reader.next();

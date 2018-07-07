@@ -15,6 +15,9 @@ import java.util.List;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData.Record;
 
+import PhysicalOperators.SortMergeJoinOperator;
+import PhysicalOperators.Pfilter;
+import PhysicalOperators.SortOperator;
 import cores.avro.FilterBatchColumnReader;
 import cores.avro.FilterOperator;
 
@@ -109,7 +112,7 @@ public class Q9 {
 
     public static void sk_year_amount(File[] sa, Schema saSchema, File[] sy, Schema sySchema, String syaPath,
             Schema syaSchema) throws IOException {
-        JoinOperator JO = new JoinOperator(sa, sy, saSchema, sySchema, 1, true, syaSchema, syaPath);
+        SortMergeJoinOperator JO = new SortMergeJoinOperator(sa, sy, saSchema, sySchema, 1, true, syaSchema, syaPath);
         JO.halfJoin();
     }
 
@@ -120,7 +123,7 @@ public class Q9 {
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(snPath + "/file")));
         while (reader.hasNext()) {
             Record r = reader.next();
-            writer.write(JoinOperator.getString(r));
+            writer.write(SortMergeJoinOperator.getString(r));
             writer.write(System.getProperties().getProperty("line.separator"));
         }
         reader.close();
@@ -132,7 +135,7 @@ public class Q9 {
         File[] syaF = { sya };
         File[] snF = { sn };
         SortOperator SO = new SortOperator(nyaPath, true, 2);
-        JoinOperator JO = new JoinOperator(syaF, snF, syaSchema, snSchema, 1, true, nyaSchema, nyaPath, SO);
+        SortMergeJoinOperator JO = new SortMergeJoinOperator(syaF, snF, syaSchema, snSchema, 1, true, nyaSchema, nyaPath, SO);
         JO.halfJoin();
         long start = System.currentTimeMillis();
         ArrayList<SortKey> nya = SO.sumMergeToMem(nyaSchema);

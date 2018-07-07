@@ -1,5 +1,0 @@
-{"type": "record", "name": "supplier",
-	 "fields": [
-	 	{"name": "s_suppkey", "type": "int"},
-	 	{"name": "s_nationkey", "type": "int"}
-]}

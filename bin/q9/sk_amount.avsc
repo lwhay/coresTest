@@ -1,5 +1,0 @@
-{"type": "record", "name": "sk_amount",
-	 "fields": [
-	 	{"name": "sk", "type": "int"},
-	 	{"name": "amount", "type": "double"}
-]}

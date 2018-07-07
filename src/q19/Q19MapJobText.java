@@ -42,29 +42,29 @@ public class Q19MapJobText extends Configured implements Tool {
             Configuration conf = context.getConfiguration();
             schema = AvroJob.getInputKeySchema(context.getConfiguration());
             String[] args = conf.getStrings("args");
-            int brandNo = Integer.parseInt(args[3]);
-            filters = new FilterOperator[1];
-            //            int p_container = Integer.parseInt(args[4]);
-            //            String[] com_p = new String[p_container];
-            //            int i = 5;
-            //            for (int m = 0; m < p_container; m++) {
-            //                com_p[m] = args[i + m];
-            //            }
-            //            i += p_container;
-            //            int p_size = Integer.parseInt(args[i++]);
-            //            float f1 = Float.parseFloat(args[i++]);
-            //            float f2 = Float.parseFloat(args[i++]);
-            //            int l_shipmode = Integer.parseInt(args[i++]);
-            //            String[] com_l = new String[l_shipmode];
-            //            for (int m = 0; m < l_shipmode; m++) {
-            //                com_l[m] = args[i + m];
-            //            }
-            filters[0] = new Pfilter(brandNo); //p_brand
-            //            filters[1] = new Pfilter2(com_p); //p_container
-            //            filters[2] = new Pfilter3(p_size); //p_size
-            //            filters[3] = new Lfilter1(f1, f2); //l_quantity
-            //            filters[4] = new Lfilter2(com_l); //l_shipmode
-            //            filters[5] = new Lfilter3(); //l_shipinstruct
+            String brandNo = args[3];
+            filters = new FilterOperator[6];
+            int p_container = Integer.parseInt(args[4]);
+            String[] com_p = new String[p_container];
+            int i = 5;
+            for (int m = 0; m < p_container; m++) {
+                com_p[m] = args[i + m];
+            }
+            i += p_container;
+            int p_size = Integer.parseInt(args[i++]);
+            float f1 = Float.parseFloat(args[i++]);
+            float f2 = Float.parseFloat(args[i++]);
+            int l_shipmode = Integer.parseInt(args[i++]);
+            String[] com_l = new String[l_shipmode];
+            for (int m = 0; m < l_shipmode; m++) {
+                com_l[m] = args[i + m];
+            }
+            filters[0] = new Pfilter1(brandNo); //p_brand
+            filters[1] = new Pfilter2(com_p); //p_container
+            filters[2] = new Pfilter3(p_size); //p_size
+            filters[3] = new Lfilter1(f1, f2); //l_quantity
+            filters[4] = new Lfilter2(com_l); //l_shipmode
+            filters[5] = new Lfilter3(); //l_shipinstruct
         }
 
         @Override
@@ -77,11 +77,11 @@ public class Q19MapJobText extends Configured implements Tool {
             System.out
                     .println("*************************headFile" + path.substring(0, path.lastIndexOf(".")) + ".head");
             LOG.info("*************************headFile" + path.substring(0, path.lastIndexOf(".")) + ".head");
-            FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(
-                    new HadoopInput(new Path(path), context.getConfiguration()),
-                    new HadoopInput(new Path(path.substring(0, path.lastIndexOf(".")) + ".head"),
-                            context.getConfiguration()),
-                    filters);
+            FilterBatchColumnReader<Record> reader =
+                    new FilterBatchColumnReader<Record>(new HadoopInput(new Path(path), context.getConfiguration()),
+                            new HadoopInput(new Path(path.substring(0, path.lastIndexOf(".")) + ".head"),
+                                    context.getConfiguration()),
+                            filters);
             reader.createSchema(schema);
             reader.filter();
             BitSet set = reader.getCurrentSet();

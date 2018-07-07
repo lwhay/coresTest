@@ -10,6 +10,7 @@ import org.apache.hadoop.fs.Path;
 
 import cores.avro.FilterBatchColumnReader;
 import parquet.avro.AvroParquetWriter;
+import parquet.hadoop.metadata.CompressionCodecName;
 
 public class CoresTranToParquet {
     public static void main(String[] args) throws IOException {
@@ -17,7 +18,29 @@ public class CoresTranToParquet {
         File fromFile = new File(args[1]);
         File toFile = new File(args[2]);
         int max = Integer.parseInt(args[3]);
-        AvroParquetWriter<GenericRecord> writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s);
+        AvroParquetWriter<GenericRecord> writer;
+        switch (args[4]) {
+            case "null":
+                writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s, CompressionCodecName.UNCOMPRESSED,
+                        Integer.parseInt(args[5]), Integer.parseInt(args[6]));
+                break;
+            case "lzo":
+                writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s, CompressionCodecName.LZO,
+                        Integer.parseInt(args[5]), Integer.parseInt(args[6]));
+                break;
+            case "snappy":
+                writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s, CompressionCodecName.SNAPPY,
+                        Integer.parseInt(args[5]), Integer.parseInt(args[6]));
+                break;
+            case "gzip":
+                writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s, CompressionCodecName.GZIP,
+                        Integer.parseInt(args[5]), Integer.parseInt(args[6]));
+                break;
+            default:
+                writer = new AvroParquetWriter<GenericRecord>(new Path(args[2]), s);
+                break;
+
+        }
         if (!toFile.getParentFile().exists()) {
             toFile.getParentFile().mkdirs();
         }
