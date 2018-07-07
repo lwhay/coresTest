@@ -28,8 +28,10 @@ public class CoresMerge {
         String resultPath = args[2];
         int free = Integer.parseInt(args[3]);
         int mul = Integer.parseInt(args[4]);
+        String codec = args[5];
         long start = System.currentTimeMillis();
-        BatchAvroColumnWriter<Record> writer = new BatchAvroColumnWriter<Record>(readSchema, resultPath, free, mul);
+        BatchAvroColumnWriter<Record> writer =
+                new BatchAvroColumnWriter<Record>(readSchema, resultPath, free, mul, codec);
         File[] files = file.listFiles();
         File[] mergeFiles = new File[files.length / 2];
         int fCount = 0;
