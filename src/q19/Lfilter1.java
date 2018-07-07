@@ -15,9 +15,9 @@ public class Lfilter1 implements FilterOperator<Float> {
     }
 
     public boolean isMatch(Float s) {
-        //        if (s >= f1 && s <= f2)
-        return true;
-        //        else
-        //            return false;
+        if (s >= f1 && s <= f2)
+            return true;
+        else
+            return false;
     }
 }

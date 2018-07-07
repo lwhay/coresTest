@@ -1,5 +1,0 @@
-{"type": "record", "name": "supplier",
-	 "fields": [
-	 	{"name": "sk", "type": "int"},
-	 	{"name": "nk", "type": "int"}
-]}

@@ -1,0 +1,18 @@
+{"type": "record", "name": "Customer",
+ "fields": [
+     {"name": "c_address", "type": "string"},
+	 {"name": "OrderList", "type":{"type": "array",
+	  "items": {"type": "record", "name": "Orders",
+		"fields": [
+			{"name": "o_orderdate", "type": "string"},
+			{"name": "LineitemList", "type":{"type": "array",
+	         	"items":{"type": "record", "name": "Lineitem",
+	         		"fields": [
+					     {"name": "l_orderkey", "type": "long"},
+					     {"name": "l_linenumber", "type": "long"}
+	      			]}}}
+      ]
+	 }
+   }}
+ ]
+}

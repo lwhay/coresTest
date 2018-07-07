@@ -8,9 +8,9 @@ public class Lfilter3 implements FilterOperator<String> {
     }
 
     public boolean isMatch(String s) {
-        //        if (s.equals("DELIVER IN PERSON"))
-        return true;
-        //        else
-        //            return false;
+        if (s.equals("DELIVER IN PERSON"))
+            return true;
+        else
+            return false;
     }
 }

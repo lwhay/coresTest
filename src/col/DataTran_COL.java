@@ -22,8 +22,8 @@ public class DataTran_COL {
             throws IOException {
         Schema l = new Schema.Parser().parse(new File(schema));
         List<Field> fs = l.getFields();
-        SortedAvroWriter<ComparableKey, Record> writer = new SortedAvroWriter<ComparableKey, Record>(resultPath, l,
-                free, mul);
+        SortedAvroWriter<ComparableKey, Record> writer =
+                new SortedAvroWriter<ComparableKey, Record>(resultPath, l, free, mul);
         BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -67,8 +67,8 @@ public class DataTran_COL {
         SortedAvroReader reader1 = new SortedAvroReader(path1, s1, fIn1);
         SortedAvroReader reader2 = new SortedAvroReader(path2, s2, fIn2);
 
-        SortedAvroWriter<ComparableKey, Record> writer = new SortedAvroWriter<ComparableKey, Record>(resultPath, s,
-                free, mul);
+        SortedAvroWriter<ComparableKey, Record> writer =
+                new SortedAvroWriter<ComparableKey, Record>(resultPath, s, free, mul);
 
         String line;
         Record r2 = reader2.next();
@@ -296,7 +296,7 @@ public class DataTran_COL {
         int index = finalTran(path + "customer.tbl", result + "3/", schema + "3/", schema + "2/nest.avsc", fields4,
                 fields5, result + "/", max, mul);
         end = System.currentTimeMillis();
-        System.out.println("+++++++customer&&orders&&lineitem time+++++++" + (end - start));
+        System.out.println("+++++++customer&&orders&&lineitem time+++++++" + (end - start) + " index: " + index);
 
         String resultPath = result + "/";
         Schema s = new Schema.Parser().parse(new File(schema + "3/" + "nest.avsc"));
