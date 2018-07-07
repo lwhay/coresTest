@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData.Record;
 
+import PhysicalOperators.SortOperator;
 import cores.avro.FilterBatchColumnReader;
 
 public class test {
