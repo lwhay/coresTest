@@ -22,8 +22,8 @@ public class DataTran_PPSL {
             throws IOException {
         Schema l = new Schema.Parser().parse(new File(schema));
         List<Field> fs = l.getFields();
-        SortedAvroWriter<ComparableKey, Record> writer = new SortedAvroWriter<ComparableKey, Record>(resultPath, l,
-                free, mul);
+        SortedAvroWriter<ComparableKey, Record> writer =
+                new SortedAvroWriter<ComparableKey, Record>(resultPath, l, free, mul);
         BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
         String line;
         while ((line = reader.readLine()) != null) {
@@ -67,8 +67,8 @@ public class DataTran_PPSL {
         SortedAvroReader reader1 = new SortedAvroReader(path1, s1, fIn1);
         SortedAvroReader reader2 = new SortedAvroReader(path2, s2, fIn2);
 
-        SortedAvroWriter<ComparableKey, Record> writer = new SortedAvroWriter<ComparableKey, Record>(resultPath, s,
-                free, mul);
+        SortedAvroWriter<ComparableKey, Record> writer =
+                new SortedAvroWriter<ComparableKey, Record>(resultPath, s, free, mul);
 
         String line;
         Record r2 = reader2.next();
@@ -268,6 +268,7 @@ public class DataTran_PPSL {
         int free = Integer.parseInt(args[2]);
         int mul = Integer.parseInt(args[3]);
         int max = Integer.parseInt(args[4]);
+        String codec = args[5];
 
         int[] fields0 = new int[] { 1, 2, 0, 3 };
         long start = System.currentTimeMillis();
@@ -300,7 +301,7 @@ public class DataTran_PPSL {
 
         String resultPath = result + "/";
         Schema s = new Schema.Parser().parse(new File(schema + "3/" + "nest.avsc"));
-        BatchAvroColumnWriter<Record> writer = new BatchAvroColumnWriter<Record>(s, resultPath, max, mul);
+        BatchAvroColumnWriter<Record> writer = new BatchAvroColumnWriter<Record>(s, resultPath, max, mul, codec);
         File[] files = new File[index];
         for (int i = 0; i < index; i++)
             files[i] = new File(resultPath + "file" + String.valueOf(i) + ".neci");
