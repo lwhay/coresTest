@@ -34,7 +34,7 @@ public class TranToAvroCodec {
             case "bzip2":
                 fileWriter.setCodec(CodecFactory.bzip2Codec());
                 break;
-            case "snopy":
+            case "snappy":
                 fileWriter.setCodec(CodecFactory.snappyCodec());
                 break;
             case "null":
