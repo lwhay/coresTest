@@ -8,21 +8,22 @@ import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData.Record;
 
 import cores.avro.FilterBatchColumnReader;
+import cores.avro.FilterOperator;
 
 public class Q14 {
     public static void main(String[] args) throws IOException {
         File file = new File(args[0]);
         Schema readSchema = new Schema.Parser().parse(new File(args[1]));
         int max = Integer.parseInt(args[2]);
-        //        FilterOperator[] filters = new FilterOperator[1];
-        //        filters[0] = new Lfilter(args[3], args[4]);
+        FilterOperator[] filters = new FilterOperator[1];
+        filters[0] = new Lfilter(args[3], args[4]);
         long start = System.currentTimeMillis();
-        FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(file);
+        FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(file, filters);
         reader.createSchema(readSchema);
-        //        long t1 = System.currentTimeMillis();
-        //        reader.filterNoCasc();
-        //        long t2 = System.currentTimeMillis();
-        reader.createRead(max);
+        long t1 = System.currentTimeMillis();
+        reader.filter();
+        long t2 = System.currentTimeMillis();
+        reader.createFilterRead(max);
         int count = 0;
         double result = 0.00;
         double sum = 0.00;
@@ -65,7 +66,7 @@ public class Q14 {
         long end = System.currentTimeMillis();
         System.out.println(count);
         System.out.println("time: " + (end - start));
-        //        System.out.println("filter time: " + (t2 - t1));
+        System.out.println("filter time: " + (t2 - t1));
         //        System.out.println("IO time: " + timeIO);
         //        System.out.println("***********************filterBlockRes************");
         //        System.out.println("read Block: " + filterBlock[0] + "\tseeked Block: " + filterBlock[1] + "\tblock count: "
