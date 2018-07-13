@@ -48,7 +48,7 @@ public class Q01_Scan {
             for (Record ps : psa) {
                 List<Record> la = (List<Record>) (ps.get(9));
                 for (Record r : la) {
-                    if (((String) r.get(10)).compareTo(t1) <= 0) {
+                    if ((r.get(10)).toString().compareTo(t1) <= 0) {
                         float quantity = (float) r.get(4);
                         float extendedprice = (float) r.get(5);
                         float discount = (float) r.get(6);
@@ -329,7 +329,7 @@ public class Q01_Scan {
                 trevniExecutor(args);
                 break;
             case "parq":
-                trevniExecutor(args);
+                parquetExecutor(args);
                 break;
             case "avro":
                 avroExecutor(args);
