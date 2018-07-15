@@ -9,10 +9,10 @@ import cores.avro.FilterOperator;
  * @author Michael
  *
  */
-public class DateFilter implements FilterOperator<String> {
+public class Q01_ShipdateFilter implements FilterOperator<String> {
     String ts;
 
-    public DateFilter(String ts) {
+    public Q01_ShipdateFilter(String ts) {
         this.ts = ts;
     }
 

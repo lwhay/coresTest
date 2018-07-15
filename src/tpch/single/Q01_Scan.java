@@ -258,7 +258,8 @@ public class Q01_Scan {
         long start = System.currentTimeMillis();
         FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(file);
         long t2 = System.currentTimeMillis();
-        reader.createFilterRead(max);
+        reader.createSchema(readSchema);
+        reader.createRead(max);
         int count = 0;
         double result = 0.00;
         double sum = 0.00;

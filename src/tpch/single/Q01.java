@@ -30,7 +30,7 @@ public class Q01 {
         Schema readSchema = new Schema.Parser().parse(new File(args[1]));
         int max = Integer.parseInt(args[2]);
         FilterOperator[] filters = new FilterOperator[1];
-        filters[0] = new DateFilter(args[3]);
+        filters[0] = new Q01_ShipdateFilter(args[3]);
         long start = System.currentTimeMillis();
         FilterBatchColumnReader<Record> reader = new FilterBatchColumnReader<Record>(file, filters);
         reader.createSchema(readSchema);
