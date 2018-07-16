@@ -34,7 +34,7 @@ public class unionPPSLScan {
         while (reader.hasNext()) {
             Record r = reader.next();
             System.out.println(count++);
-            String address = r.get(3).toString();
+            String address = r.get(0).toString();
         }
         reader.close();
         end = System.currentTimeMillis();

@@ -1,0 +1,20 @@
+{"type": "record", "name": "Part",
+ "fields": [
+     {"name": "p_partkey", "type": "long", "order": "ignore"},
+     {"name": "p_name", "type": "string"},
+     {"name": "p_mfgr", "type": "string"},
+     {"name": "p_brand", "type": "string"},
+     {"name": "p_type", "type": "string"},
+     {"name": "p_size", "type": "int"},
+     {"name": "p_container", "type": "string"},
+     {"name": "p_retailprice", "type": "float"},
+     {"name": "p_comment", "type": "string"},
+	 {"name": "PartsuppList", "type":{"type": "array",
+	  "items":{"type": "record", "name": "Partsupp",
+	   "fields": [
+	     {"name": "ps_partkey", "type": ["long", "null"], "order": "ignore"}
+      ]
+	 }
+   }}
+ ]
+}

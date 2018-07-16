@@ -1,0 +1,20 @@
+{"type": "record", "name": "Lineitem",
+		   "fields": [
+		     {"name": "l_orderkey", "type": "int", "order": "ignore"},
+			 {"name": "l_partkey", "type": "int"},
+			 {"name": "l_suppkey", "type": "int"},
+			 {"name": "l_linenumber", "type": "string"},
+			 {"name": "l_quantity", "type": "string"},
+			 {"name": "l_extendedprice", "type": "string"},
+			 {"name": "l_discount", "type": "string"},
+			 {"name": "l_tax", "type": "string"},
+			 {"name": "l_returnflag", "type": "string"},
+			 {"name": "l_linestatus", "type": "string"},
+			 {"name": "l_shipdate", "type": "string"},
+			 {"name": "l_commitdate", "type": "string"},
+			 {"name": "l_receiptdate", "type": "string"},
+			 {"name": "l_shipinstruct", "type": "string"},
+			 {"name": "l_shipmode", "type": "string"},
+			 {"name": "l_comment", "type": "string"}
+ ]
+}
