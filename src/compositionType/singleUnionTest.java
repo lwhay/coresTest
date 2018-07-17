@@ -82,7 +82,11 @@ public class singleUnionTest {
             for (int i = 0; i < s.getFields().size(); i++) {
                 Object obj = record.get(i);
                 if (obj != null) {
-                    System.out.print((String) obj + "|");
+                    if (i == 0) {
+                        System.out.print((long) obj + "|");
+                    } else {
+                        System.out.print((String) obj + "|");
+                    }
                 } else {
                     System.out.print("null,");
                 }
@@ -106,7 +110,11 @@ public class singleUnionTest {
             for (int i = 0; i < s.getFields().size(); i++) {
                 Object obj = record.get(i);
                 if (obj != null) {
-                    System.out.print((String) obj + "|");
+                    if (i == 0) {
+                        System.out.print((long) obj + "|");
+                    } else {
+                        System.out.print((String) obj + "|");
+                    }
                 } else {
                     System.out.print("null,");
                 }
